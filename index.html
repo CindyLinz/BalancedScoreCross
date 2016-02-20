@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+    <head>
+        <script src=livescript-1.4.0.min.js></script>
+        <script src=jscolor-2.0.4.min.js></script>
+        <script type=text/ls src=bsc.ls></script>
+        <style>
+            .jscolor {
+                width: 100%;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <table id=view align=center>
+            <tr align=center>
+                <td><td><label><div></div><input type=number value=22></label><td>
+            <tr align=center>
+                <td><label><div></div><input type=number value=33></label>
+                <td><canvas width=400 height=400>
+                    </canvas>
+                <td><label><div></div><input type=number value=44></label>
+            <tr align=center>
+                <td><td><label><div></div><input type=number value=55></label><td>
+        </table>
+        <table id=config align=center>
+            <tr align=center>
+                <td><input value=財務>
+                <td><input value=顧客>
+                <td><input value=內部流程>
+                <td><input value=學習成長>
+            <tr align=center>
+                <td><input type=number value=100>
+                <td><input type=number value=100>
+                <td><input type=number value=100>
+                <td><input type=number value=100>
+            <tr align=center>
+                <td colspan=4><input class=jscolor value=#fffeb3>
+            <tr align=center>
+                <td><input type=number value=75>
+                <td><input type=number value=75>
+                <td><input type=number value=75>
+                <td><input type=number value=75>
+            <tr align=center>
+                <td colspan=4><input class=jscolor value=#b3ffb6>
+            <tr align=center>
+                <td><input type=number value=50>
+                <td><input type=number value=50>
+                <td><input type=number value=50>
+                <td><input type=number value=50>
+            <tr align=center>
+                <td colspan=4><input class=jscolor value=#e8b3ff>
+            <tr align=center>
+                <td><input type=number value=25>
+                <td><input type=number value=25>
+                <td><input type=number value=25>
+                <td><input type=number value=25>
+            <tr align=center>
+                <td colspan=4><input class=jscolor value=#bab3ff>
+            <tr align=center>
+                <td><input type=number value=0>
+                <td><input type=number value=0>
+                <td><input type=number value=0>
+                <td><input type=number value=0>
+        </table>
+        <script>
+            require('LiveScript').go();
+        </script>
+    </body>
+</html>
