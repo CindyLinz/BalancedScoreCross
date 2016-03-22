@@ -1,9 +1,10 @@
 <!doctype html>
 <html>
     <head>
-        <!--<script src=livescript-1.4.0.min.js></script>-->
+        <script src=livescript-1.4.0.min.js></script>
         <script src=jscolor-2.0.4.min.js></script>
-        <!--<script type=text/ls src=bsc.ls></script>-->
+        <script src=jszip.min.js></script>
+        <script type=text/ls src=bsc.ls></script>
         <style>
             .jscolor {
                 width: 100%;
@@ -12,17 +13,6 @@
         </style>
     </head>
     <body>
-        <table id=view align=center>
-            <tr align=center>
-                <td><td><label><div></div><input type=number value=22></label><td>
-            <tr align=center>
-                <td><label><div></div><input type=number value=33></label>
-                <td><canvas width=400 height=400>
-                    </canvas>
-                <td><label><div></div><input type=number value=44></label>
-            <tr align=center>
-                <td><td><label><div></div><input type=number value=55></label><td>
-        </table>
         <table id=config align=center>
             <tr align=center>
                 <td><input value=財務>
@@ -63,9 +53,29 @@
                 <td><input type=number value=0>
                 <td><input type=number value=0>
         </table>
-        <!--<script>
+        <table id=view align=center>
+            <tr align=center>
+                <td><td><label><div></div><input type=number value=22></label><td>
+            <tr align=center>
+                <td><label><div></div><input type=number value=33></label>
+                <td><canvas width=400 height=400>
+                    </canvas>
+                <td><label><div></div><input type=number value=44></label>
+            <tr align=center>
+                <td><td><label><div></div><input type=number value=55></label><td>
+        </table>
+
+        <br>
+        <table align=center><tr><td>
+            整批匯入 .xlsx 檔案
+            <a href=//cindylinz.github.io/BalancedScoredCross/sample.xlsx>範例檔案下載</a><br>
+            <input type=file id=bulk_file><br>
+        </table>
+        <div id=bulk_board>
+        </div>
+        <script>
             require('LiveScript').go();
-        </script>-->
-        <script src=bsc.js></script>
+        </script>
+        <!--<script src=bsc.js></script>-->
     </body>
 </html>

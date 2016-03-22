@@ -16,11 +16,20 @@ update-view = !->
     for input in document.query-selector-all '#config input[type=number]'
       +input.value
 
+  colors =
+    for input in document.query-selector-all('#config .jscolor')
+      \# + input.value
+  colors.reverse!
+
   scores =
     for input in document.query-selector-all '#view input'
       +input.value
 
   canvas = document.query-selector \canvas
+
+  draw-canvas canvas, pivots, colors, scores
+
+draw-canvas = (canvas, pivots, colors, scores) !->
   ctx = canvas.get-context \2d
 
   padding =
@@ -63,11 +72,6 @@ update-view = !->
     ctx.fill-text pivots[4*i+2], padding.left + w + padding.right/2, padding.top + h/4 * i
     ctx.fill-text pivots[4*i+3], padding.left + w/4 * i, padding.top + h + padding.bottom/2
 
-  colors =
-    for input in document.query-selector-all('#config .jscolor')
-      \# + input.value
-  colors.reverse!
-
   for color,i in colors
     ctx.fill-style = color
     ctx.fill-rect padding.left, padding.top, w/4 * (4 - i), h/4 * (4 - i)
@@ -82,6 +86,81 @@ update-view = !->
   ctx.move-to padding.left, padding.top + scores-pos[1] * h
   ctx.line-to padding.left + w, padding.top + scores-pos[2] * h
   ctx.stroke!
+
+document.query-selector(\#bulk_file).onchange = (ev) !->
+  if @files.0?
+    reader = new FileReader
+    reader.read-as-array-buffer that
+    reader.onload = (rev) !->
+      try
+        archive = new JSZip rev.target.result
+        shared-strings =
+          for t in new DOM-parser!parse-from-string(archive.file('xl/sharedStrings.xml').asText!, 'text/xml').query-selector-all(\t)
+            t.innerHTML
+        sheet = new DOM-parser!parse-from-string archive.file('xl/worksheets/sheet1.xml').asText!, 'text/xml'
+      catch e
+        alert "檔案有問題 #e"
+        return
+      #console.warn shared-strings
+
+      bulk-board = document.query-selector(\#bulk_board)
+        ..innerHTML = ''
+
+      pivots =
+        for input in document.query-selector-all '#config input[type=number]'
+          +input.value
+
+      colors =
+        for input in document.query-selector-all('#config .jscolor')
+          \# + input.value
+      colors.reverse!
+
+      labels =
+        for label in document.query-selector-all '#config tr:first-of-type input'
+          label.value
+
+      for row in sheet.query-selector-all \row
+        cols =
+          for c in row.query-selector-all \c
+            type = c.get-attribute(\t)
+            value = c.query-selector(\v).innerHTML
+            if type == \s
+              value = shared-strings[value.|.0]
+            value
+        console.warn cols
+
+        if cols.length < 5
+          continue
+
+        row-board = document.create-element \div
+          ..innerHTML = """
+            <hr style=page-break-before:always>
+            <h3 align=center>#{esc-html cols.0}</h3>
+            <table align=center>
+                <tr align=center>
+                    <td><td><div></div><td>
+                <tr align=center>
+                    <td><div></div>
+                    <td><canvas width=400 height=400>
+                        </canvas>
+                    <td><div></div>
+                <tr align=center>
+                    <td><td><div></div><td>
+            </table>
+          """
+          bulk-board.append-child ..
+
+        scores =
+          for c in cols[1 to 4]
+            +c
+
+        divs = row-board.query-selector-all 'div'
+        for div,i in divs
+          div.innerHTML = esc-html "#{labels[i]}：#{+cols[i+1]}"
+
+        canvas = row-board.query-selector \canvas
+
+        draw-canvas canvas, pivots, colors, scores
 
 prepare-input = !->
   document.body.onchange = (ev) !->
