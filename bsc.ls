@@ -163,7 +163,7 @@ document.query-selector(\#bulk_file).onchange = (ev) !->
         draw-canvas canvas, pivots, colors, scores
 
 prepare-input = !->
-  document.body.onchange = (ev) !->
+  document.body.oninput = (ev) !->
     #clear-empty-input-tr!
     #add-new-input-tr!
     update-view!

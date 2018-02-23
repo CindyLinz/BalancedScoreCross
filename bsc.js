@@ -185,7 +185,7 @@
   };
   prepareInput = function(){
     var inputTbody, clearEmptyInputTr, addNewInputTr;
-    document.body.onchange = function(ev){
+    document.body.oninput = function(ev){
       updateView();
     };
     inputTbody = document.querySelector('#config tbody');
