@@ -119,6 +119,7 @@ document.query-selector(\#bulk_file).onchange = (ev) !->
         for label in document.query-selector-all '#config tr:first-of-type input'
           label.value
 
+      index = 0
       for row in sheet.query-selector-all \row
         cols =
           for c in row.query-selector-all \c
@@ -130,6 +131,13 @@ document.query-selector(\#bulk_file).onchange = (ev) !->
         console.warn cols
 
         if cols.length < 5
+          continue
+
+        if cols.length == 6
+          labels[index] = cols.0
+          for i from 0 to 4
+            pivots[i*4 + index] = cols[i+1]-0
+          ++index
           continue
 
         row-board = document.create-element \div
@@ -160,6 +168,7 @@ document.query-selector(\#bulk_file).onchange = (ev) !->
 
         canvas = row-board.query-selector \canvas
 
+        console.warn pivots
         draw-canvas canvas, pivots, colors, scores
 
 prepare-input = !->
